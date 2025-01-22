@@ -1,4 +1,8 @@
+from operator import truediv
+
 from django.db import models
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 class level(models.Model):
     nama_level = models.CharField(max_length=25)
@@ -9,11 +13,33 @@ class level(models.Model):
     def __str__(self):
         return self.nama_level
 
-class petugas(models.Model):
-    username = models.CharField(max_length = 25)
-    password = models.CharField(max_length = 20)
-    nama_petugas = models.CharField(max_length = 100)
+class PetugasManager(BaseUserManager):
+    def create_user(self, username, password=None, **extra_fields):
+        if not username:
+            raise ValueError('The Username field must be set')
+        user = self.model(username=username, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(username, password, **extra_fields)
+
+class petugas(AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(max_length=25, unique=True)
+    password = models.CharField(max_length=128)
+    nama_petugas = models.CharField(max_length=100)
     id_level = models.ForeignKey(level, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+    objects = PetugasManager()
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = []
 
     class Meta:
         db_table = 'petugas'

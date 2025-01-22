@@ -2,50 +2,50 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from ..serializers.pegawai_serializer import pegawai_serializer
-from ..models import pegawai
+from ..serializers.ruang_serializer import RuangSerializer
+from ..models import ruang
 
-class PegawaiListView(APIView):
+class RuangListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        pegawai_list = pegawai.objects.all()
-        serializer = pegawai_serializer(pegawai_list, many=True)
+        ruang_list = ruang.objects.all()
+        serializer = RuangSerializer(ruang_list, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = pegawai_serializer(data=request.data)
+        serializer = RuangSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class PegawaiDetailView(APIView):
+class RuangDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, pk):
         try:
-            pegawai_obj = pegawai.objects.get(pk=pk)
-            serializer = pegawai_serializer(pegawai_obj)
+            ruang_obj = ruang.objects.get(pk=pk)
+            serializer = RuangSerializer(ruang_obj)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except pegawai.DoesNotExist:
+        except ruang.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, pk):
         try:
-            pegawai_obj = pegawai.objects.get(pk=pk)
-            serializer = pegawai_serializer(pegawai_obj, data=request.data)
+            ruang_obj = ruang.objects.get(pk=pk)
+            serializer = RuangSerializer(ruang_obj, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except pegawai.DoesNotExist:
+        except ruang.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, pk):
         try:
-            pegawai_obj = pegawai.objects.get(pk=pk)
-            pegawai_obj.delete()
+            ruang_obj = ruang.objects.get(pk=pk)
+            ruang_obj.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        except pegawai.DoesNotExist:
+        except ruang.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
