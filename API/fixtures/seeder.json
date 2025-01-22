@@ -1,0 +1,90 @@
+[
+    {
+        "model": "API.level",
+        "pk": 1,
+        "fields": {
+            "nama_level": "Operator"
+        }
+    },
+    {
+        "model": "API.level",
+        "pk": 2,
+        "fields": {
+            "nama_level": "Admin"
+        }
+    },
+    {
+        "model": "API.petugas",
+        "pk": 1,
+        "fields": {
+            "username": "operator1",
+            "password": "password123",
+            "nama_petugas": "Operator Satu",
+            "id_level": 1
+        }
+    },
+    {
+        "model": "API.petugas",
+        "pk": 2,
+        "fields": {
+            "username": "admin1",
+            "password": "admin123",
+            "nama_petugas": "Admin Satu",
+            "id_level": 2
+        }
+    },
+    {
+        "model": "API.jenis",
+        "pk": 1,
+        "fields": {
+            "nama_jenis": "Elektronik",
+            "kode_jenis": 101,
+            "keterangan": "Barang Elektronik"
+        }
+    },
+    {
+        "model": "API.jenis",
+        "pk": 2,
+        "fields": {
+            "nama_jenis": "Peralatan Kantor",
+            "kode_jenis": 102,
+            "keterangan": "Barang untuk kebutuhan kantor"
+        }
+    },
+    {
+        "model": "API.ruang",
+        "pk": 1,
+        "fields": {
+            "nama_ruang": "Ruang Administrasi",
+            "kode_ruang": 201,
+            "keterangan": "Ruang untuk admin"
+        }
+    },
+    {
+        "model": "API.ruang",
+        "pk": 2,
+        "fields": {
+            "nama_ruang": "Ruang IT",
+            "kode_ruang": 202,
+            "keterangan": "Ruang untuk peralatan IT"
+        }
+    },
+    {
+        "model": "API.pegawai",
+        "pk": 1,
+        "fields": {
+            "nama_pegawai": "Budi Santoso",
+            "nip": 12345678,
+            "alamat": "Jl. Merdeka No. 10"
+        }
+    },
+    {
+        "model": "API.pegawai",
+        "pk": 2,
+        "fields": {
+            "nama_pegawai": "Siti Aminah",
+            "nip": 87654321,
+            "alamat": "Jl. Proklamasi No. 20"
+        }
+    }
+]
