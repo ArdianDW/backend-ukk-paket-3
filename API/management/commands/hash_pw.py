@@ -6,12 +6,11 @@ class Command(BaseCommand):
     help = 'Hashes all plaintext passwords for petugas'
 
     def handle(self, *args, **kwargs):
-        # Ambil semua petugas yang password-nya belum di-hash
         petugas_list = petugas.objects.all()
         updated_count = 0
 
         for petugas_obj in petugas_list:
-            if not petugas_obj.password.startswith('pbkdf2_'):  # Cek jika belum di-hash
+            if not petugas_obj.password.startswith('pbkdf2_'):
                 petugas_obj.password = make_password(petugas_obj.password)
                 petugas_obj.save()
                 updated_count += 1
