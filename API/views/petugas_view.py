@@ -1,13 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status, permissions
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from ..models import petugas
 from ..serializers.petugas_serializer import petugas_serializer
 from ..serializers.petugas_login_serializer import petugas_login_serializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
 class petugas_login_view(APIView):
+    permission_classes = (AllowAny,)
     def post(self, request):
         serializer = petugas_login_serializer(data=request.data)
         if serializer.is_valid():

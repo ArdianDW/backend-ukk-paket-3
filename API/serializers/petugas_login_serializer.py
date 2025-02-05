@@ -14,10 +14,10 @@ class petugas_login_serializer(serializers.Serializer):
         try:
             petugas_obj = petugas.objects.get(username=username)
         except petugas.DoesNotExist:
-            raise serializers.ValidationError('Petugas username does not exist')
+            raise serializers.ValidationError('Username salah!')
 
         if not check_password(password, petugas_obj.password):
-            raise serializers.ValidationError('Petugas password incorrect')
+            raise serializers.ValidationError('Kata sandi salah!')
 
         refresh = RefreshToken.for_user(petugas_obj)
 
