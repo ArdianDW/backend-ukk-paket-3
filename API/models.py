@@ -126,7 +126,7 @@ class inventaris(models.Model):
     id_jenis = models.ForeignKey(jenis, on_delete=models.CASCADE)
     tanggal_register = models.DateField()
     id_ruang = models.ForeignKey(ruang, on_delete=models.CASCADE)
-    kode_inventaris = models.IntegerField(unique=True)
+    kode_inventaris = models.CharField(max_length=20)
     id_petugas = models.ForeignKey(petugas, on_delete=models.CASCADE)
 
     class Meta:
@@ -136,9 +136,9 @@ class inventaris(models.Model):
         return self.nama
 
 class peminjaman(models.Model):
-    tanggal_pinjam = models.DateField()
-    tanggal_kembali = models.DateField()
-    status_peminjaman = models.CharField(max_length = 20)
+    tanggal_pinjam = models.DateField(auto_now_add=True)
+    tanggal_kembali = models.DateField(null=True, blank=True)
+    status_peminjaman = models.CharField(max_length=20, default='Dipinjam')
     id_pegawai = models.ForeignKey(pegawai, on_delete=models.CASCADE)
 
     class Meta:
@@ -148,14 +148,15 @@ class peminjaman(models.Model):
         return f"Peminjaman oleh {self.id_pegawai.nama_pegawai} pada {self.tanggal_pinjam}"
 
 class detail_pinjam(models.Model):
-    id_invetaris = models.ForeignKey(inventaris, on_delete=models.CASCADE)
-    id_peminjaman = models.ForeignKey(peminjaman, on_delete=models.CASCADE)
+    id_inventaris = models.ForeignKey(inventaris, on_delete=models.CASCADE)
     jumlah = models.IntegerField()
+    peminjaman = models.ForeignKey(peminjaman, on_delete=models.CASCADE)
+    kondisi = models.CharField(max_length=10, choices=[('baik', 'Baik'), ('rusak', 'Rusak'), ('hilang', 'Hilang')], null=True, blank=True)
 
     class Meta:
         db_table = 'detail_pinjam'
 
     def __str__(self):
-        return f"Detail Peminjaman {self.id_peminjaman.id} - {self.id_inventaris.nama}"
+        return f"Detail Pinjam: {self.id_inventaris.nama} - {self.jumlah}"
 
 

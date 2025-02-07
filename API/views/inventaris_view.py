@@ -10,11 +10,7 @@ class InventarisListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        query = request.query_params.get('search', None)
-        if query:
-            inventaris_list = inventaris.objects.filter(nama__icontains=query)
-        else:
-            inventaris_list = inventaris.objects.all()
+        inventaris_list = inventaris.objects.all()  
         serializer = InventarisSerializer(inventaris_list, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

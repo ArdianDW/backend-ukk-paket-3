@@ -7,6 +7,8 @@ from .views.ruang_view import RuangListView, RuangDetailView
 from .views.dashboard_view import DashboardView
 from .views.inventaris_view import InventarisListView, InventarisDetailView
 from .views.level_view import LevelListView, LevelDetailView
+from .views.transaksi_view import PeminjamanViewSet
+from .views.peminjaman_view import PeminjamanListView
 
 urlpatterns = [
     path('petugas/login/', petugas_login_view.as_view(), name='petugas-login'),
@@ -26,4 +28,6 @@ urlpatterns = [
     path('inventaris/<int:pk>/', InventarisDetailView.as_view(), name='inventaris-detail'),
     path('level/', LevelListView.as_view(), name='level-list'),
     path('level/<int:pk>/', LevelDetailView.as_view(), name='level-detail'),
+    path('peminjaman/', PeminjamanViewSet.as_view({'get': 'list', 'post': 'create'}), name='peminjaman-list'),
+    path('aktivitas/', PeminjamanListView.as_view(), name='aktivitas-list')
 ]

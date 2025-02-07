@@ -4,7 +4,7 @@
         "pk": 1,
         "fields": {
             "nama": "Laptop",
-            "kode_inventaris": 12345678,
+            "kode_inventaris": "12345678",
             "kondisi": "baik",
             "keterangan": "Laptop untuk keperluan kantor",
             "jumlah": 10,
@@ -19,7 +19,7 @@
         "pk": 2,
         "fields": {
             "nama": "Proyektor",
-            "kode_inventaris": 87654321,
+            "kode_inventaris": "87654321",
             "kondisi": "baik",
             "keterangan": "Proyektor untuk presentasi",
             "jumlah": 5,
@@ -34,7 +34,7 @@
         "pk": 3,
         "fields": {
             "nama": "Printer",
-            "kode_inventaris": 23456789,
+            "kode_inventaris": "23456789",
             "kondisi": "rusak",
             "keterangan": "Printer rusak, perlu perbaikan",
             "jumlah": 5,
@@ -49,7 +49,7 @@
         "pk": 4,
         "fields": {
             "nama": "Scanner",
-            "kode_inventaris": 98765432,
+            "kode_inventaris": "98765432",
             "kondisi": "baik",
             "keterangan": "Scanner untuk dokumen",
             "jumlah": 5,
@@ -64,7 +64,7 @@
         "pk": 5,
         "fields": {
             "nama": "Meja",
-            "kode_inventaris": 34567890,
+            "kode_inventaris": "34567890",
             "kondisi": "baik",
             "keterangan": "Meja kerja",
             "jumlah": 5,
@@ -79,7 +79,7 @@
         "pk": 6,
         "fields": {
             "nama": "Kursi",
-            "kode_inventaris": 9876543,
+            "kode_inventaris": "9876543",
             "kondisi": "baik",
             "keterangan": "Kursi kantor",
             "jumlah": 5,
@@ -94,7 +94,7 @@
         "pk": 7,
         "fields": {
             "nama": "Whiteboard",
-            "kode_inventaris": 45678901,
+            "kode_inventaris": "45678901",
             "kondisi": "baik",
             "keterangan": "Whiteboard untuk rapat",
             "jumlah": 5,
@@ -109,7 +109,7 @@
         "pk": 8,
         "fields": {
             "nama": "Televisi",
-            "kode_inventaris": 10987654,
+            "kode_inventaris": "10987654",
             "kondisi": "baik",
             "keterangan": "Televisi untuk ruang tunggu",
             "jumlah": 5,
@@ -124,7 +124,7 @@
         "pk": 9,
         "fields": {
             "nama": "AC",
-            "kode_inventaris": 56789012,
+            "kode_inventaris": "56789012",
             "kondisi": "rusak",
             "keterangan": "AC rusak, perlu perbaikan",
             "jumlah": 5,
@@ -139,7 +139,7 @@
         "pk": 10,
         "fields": {
             "nama": "Kamera",
-            "kode_inventaris": 21098765,
+            "kode_inventaris": "21098765",
             "kondisi": "baik",
             "keterangan": "Kamera untuk dokumentasi",
             "jumlah": 3,
