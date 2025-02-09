@@ -9,6 +9,13 @@ from .views.inventaris_view import InventarisListView, InventarisDetailView
 from .views.level_view import LevelListView, LevelDetailView
 from .views.transaksi_view import PeminjamanViewSet
 from .views.peminjaman_view import PeminjamanListView
+from .views.riwayat_view import RiwayatPeminjamanListView
+from .views.aktivitas_view import AktivitasListView, AktivitasDetailView
+from .views.riwayat_aktivitas_view import RiwayatAktivitasListView
+from .views.laporan_view import LaporanView
+from .views.me_view import MeView
+from .views.change_password_view import ChangePasswordView
+from .views.export_laporan_view import ExportLaporanView
 
 urlpatterns = [
     path('petugas/login/', petugas_login_view.as_view(), name='petugas-login'),
@@ -29,5 +36,14 @@ urlpatterns = [
     path('level/', LevelListView.as_view(), name='level-list'),
     path('level/<int:pk>/', LevelDetailView.as_view(), name='level-detail'),
     path('peminjaman/', PeminjamanViewSet.as_view({'get': 'list', 'post': 'create'}), name='peminjaman-list'),
-    path('aktivitas/', PeminjamanListView.as_view(), name='aktivitas-list')
+    path('peminjaman/<int:pk>/', PeminjamanViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='peminjaman-detail'),
+    path('peminjaman/active/', PeminjamanListView.as_view(), name='peminjaman-active'),
+    path('aktivitas/', AktivitasListView.as_view(), name='aktivitas-list'),
+    path('aktivitas/<int:pk>/', AktivitasDetailView.as_view(), name='aktivitas-detail'),
+    path('riwayat/', RiwayatPeminjamanListView.as_view(), name='riwayat-list'),
+    path('riwayat-aktivitas/', RiwayatAktivitasListView.as_view(), name='riwayat-aktivitas-list'),
+    path('laporan/', LaporanView.as_view(), name='laporan'),
+    path('laporan/export/', ExportLaporanView.as_view(), name='export-laporan'),
+    path('me/', MeView.as_view(), name='me'),
+    path('me/change-password/', ChangePasswordView.as_view(), name='change-password'),
 ]

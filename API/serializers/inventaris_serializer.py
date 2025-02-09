@@ -7,8 +7,7 @@ class InventarisSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = inventaris
-        fields = '__all__'
-        extra_fields = ['nama_jenis', 'nama_ruang']
+        fields = ['id', 'nama', 'kondisi', 'keterangan', 'jumlah', 'tanggal_register', 'kode_inventaris', 'nama_jenis', 'nama_ruang']
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

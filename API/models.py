@@ -100,9 +100,9 @@ class pegawai(AbstractBaseUser, PermissionsMixin):
 
 
 class jenis(models.Model):
-    nama_jenis = models.CharField(max_length = 50)
-    kode_jenis = models.IntegerField()
-    keterangan = models.CharField(max_length = 50)
+    nama_jenis = models.CharField(max_length=50)
+    kode_jenis = models.CharField(max_length=20, unique=True)
+    keterangan = models.CharField(max_length=50)
 
     class Meta:
         db_table = 'jenis'
@@ -111,9 +111,9 @@ class jenis(models.Model):
         return self.nama_jenis
 
 class ruang(models.Model):
-    nama_ruang = models.CharField(max_length = 30)
-    kode_ruang = models.IntegerField(unique=True)
-    keterangan = models.CharField(max_length = 30)
+    nama_ruang = models.CharField(max_length=30)
+    kode_ruang = models.CharField(max_length=20, unique=True)
+    keterangan = models.CharField(max_length=30)
 
     class Meta:
         db_table = 'ruang'
@@ -122,7 +122,7 @@ class inventaris(models.Model):
     nama = models.CharField(max_length=50)
     kondisi = models.CharField(max_length=50)
     keterangan = models.CharField(max_length=50)
-    jumlah = models.IntegerField()
+    jumlah = models.PositiveIntegerField()
     id_jenis = models.ForeignKey(jenis, on_delete=models.CASCADE)
     tanggal_register = models.DateField()
     id_ruang = models.ForeignKey(ruang, on_delete=models.CASCADE)
@@ -158,5 +158,17 @@ class detail_pinjam(models.Model):
 
     def __str__(self):
         return f"Detail Pinjam: {self.id_inventaris.nama} - {self.jumlah}"
+
+class RiwayatPeminjaman(models.Model):
+    peminjaman = models.ForeignKey(peminjaman, on_delete=models.CASCADE)
+    tanggal_riwayat = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20)
+    keterangan = models.TextField(null=True, blank=True)
+
+    class Meta:
+        db_table = 'riwayat_peminjaman'
+
+    def __str__(self):
+        return f"Riwayat {self.peminjaman.id} - {self.status}"
 
 

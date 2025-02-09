@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from API.models import inventaris, peminjaman, detail_pinjam
+from API.models import inventaris, peminjaman, detail_pinjam, RiwayatPeminjaman
 from django.utils import timezone
 
 class DetailPinjamSerializer(serializers.ModelSerializer):
@@ -20,13 +20,28 @@ class PeminjamanSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         details_data = validated_data.pop('details')
+
+        for detail_data in details_data:
+            inventaris_instance = inventaris.objects.get(pk=detail_data['id_inventaris'].id)
+            if inventaris_instance.jumlah < detail_data['jumlah']:
+                raise ValidationError({
+                    'detail': f"Jumlah barang {inventaris_instance.nama} tidak mencukupi. Tersedia: {inventaris_instance.jumlah}, Diminta: {detail_data['jumlah']}"
+                })
+
         peminjaman_instance = peminjaman.objects.create(**validated_data)
 
         for detail_data in details_data:
-            detail_pinjam.objects.create(peminjaman=peminjaman_instance, **detail_data)
             inventaris_instance = inventaris.objects.get(pk=detail_data['id_inventaris'].id)
             inventaris_instance.jumlah -= detail_data['jumlah']
             inventaris_instance.save()
+
+            detail_pinjam.objects.create(peminjaman=peminjaman_instance, **detail_data)
+
+        RiwayatPeminjaman.objects.create(
+            peminjaman=peminjaman_instance,
+            status="Dipinjam",
+            keterangan="Meminjam"
+        )
 
         return peminjaman_instance
 
@@ -37,6 +52,12 @@ class PeminjamanSerializer(serializers.ModelSerializer):
         instance.tanggal_kembali = timezone.now().date()
         instance.status_peminjaman = "Dikembalikan"
         instance.save()
+
+        RiwayatPeminjaman.objects.create(
+            peminjaman=instance,
+            status="Dikembalikan",
+            keterangan="Mengembalikan"
+        )
 
         details_data = validated_data.pop('details', [])
         for detail_data in details_data:
