@@ -6,7 +6,7 @@ from API.serializers.level_serializer import LevelSerializer
 
 class LevelListView(APIView):
     def get(self, request):
-        levels = level.objects.all()
+        levels = level.objects.filter(id__in=[1, 2])
         serializer = LevelSerializer(levels, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

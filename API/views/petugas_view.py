@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from ..models import petugas
+from ..models import petugas, level
 from ..serializers.petugas_serializer import petugas_serializer
 from ..serializers.petugas_login_serializer import petugas_login_serializer
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -17,7 +17,8 @@ class petugas_login_view(APIView):
 
 class petugas_list_view(APIView):
     def get(self, request):
-        petugas_list = petugas.objects.all()
+        admin_operator_levels = level.objects.filter(nama_level__in=['admin', 'operator'])
+        petugas_list = petugas.objects.filter(id_level__in=admin_operator_levels)
         serializer = petugas_serializer(petugas_list, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

@@ -55,49 +55,17 @@ class petugas(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.nama_petugas
 
-
-class PegawaiManager(BaseUserManager):
-    def create_user(self, nip, password=None, **extra_fields):
-        if not nip:
-            raise ValueError('The NIP field must be set')
-        user = self.model(nip=nip, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, nip, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        return self.create_user(nip, password, **extra_fields)
-
-class pegawai(AbstractBaseUser, PermissionsMixin):
+class pegawai(models.Model):
     nama_pegawai = models.CharField(max_length=50)
     nip = models.CharField(max_length=20, unique=True)
     alamat = models.CharField(max_length=50)
-    password = models.CharField(max_length=128)
-
-    groups = models.ManyToManyField(
-        "auth.Group",
-        related_name="pegawai_groups",
-        blank=True
-    )
-    user_permissions = models.ManyToManyField(
-        "auth.Permission",
-        related_name="pegawai_permissions",
-        blank=True
-    )
-
-    objects = PegawaiManager()
-
-    USERNAME_FIELD = 'nip'
-    REQUIRED_FIELDS = []
+    petugas_id = models.OneToOneField(petugas, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'pegawai'
 
     def __str__(self):
         return self.nama_pegawai
-
 
 class jenis(models.Model):
     nama_jenis = models.CharField(max_length=50)

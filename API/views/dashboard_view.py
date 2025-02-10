@@ -9,9 +9,8 @@ class DashboardView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        total_petugas = petugas.objects.count()
+        total_petugas = petugas.objects.filter(id_level__id__in=[1, 2]).count()
         total_pegawai = pegawai.objects.count()
-
         total_ruang = ruang.objects.count()
 
         barang_dipinjam_ids = detail_pinjam.objects.filter(peminjaman__status_peminjaman='Dipinjam').values_list('id_inventaris', flat=True)

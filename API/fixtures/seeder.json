@@ -14,6 +14,13 @@
         }
     },
     {
+        "model": "API.level",
+        "pk": 3,
+        "fields": {
+            "nama_level": "Pegawai"
+        }
+    },
+    {
         "model": "API.petugas",
         "pk": 1,
         "fields": {
@@ -67,24 +74,6 @@
             "nama_ruang": "Ruang IT",
             "kode_ruang": 202,
             "keterangan": "Ruang untuk peralatan IT"
-        }
-    },
-    {
-        "model": "API.pegawai",
-        "pk": 1,
-        "fields": {
-            "nama_pegawai": "Budi Santoso",
-            "nip": 12345678,
-            "alamat": "Jl. Merdeka No. 10"
-        }
-    },
-    {
-        "model": "API.pegawai",
-        "pk": 2,
-        "fields": {
-            "nama_pegawai": "Siti Aminah",
-            "nip": 87654321,
-            "alamat": "Jl. Proklamasi No. 20"
         }
     }
 ]
