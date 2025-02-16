@@ -9,8 +9,19 @@ class AktivitasListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        # Filter peminjaman yang masih dalam status 'Dipinjam'
-        aktivitas_list = peminjaman.objects.filter(status_peminjaman='Dipinjam')
+        # Filter peminjaman yang statusnya 'Dipinjam' dan disetujui
+        aktivitas_list = peminjaman.objects.filter(status_peminjaman='Dipinjam', status_approval='diterima')
+        serializer = AktivitasSerializer(aktivitas_list, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class AktivitasPendingView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        aktivitas_list = peminjaman.objects.filter(
+            status_peminjaman__in=['Dipinjam', 'Dikembalikan'],
+            status_approval='pending'
+        )
         serializer = AktivitasSerializer(aktivitas_list, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -24,4 +35,16 @@ class AktivitasDetailView(APIView):
             serializer = AktivitasDetailSerializer(details, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except peminjaman.DoesNotExist:
-            return Response({'error': 'Peminjaman not found'}, status=status.HTTP_404_NOT_FOUND) 
+            return Response({'error': 'Peminjaman not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class AktivitasUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, user_id):
+        aktivitas_list = peminjaman.objects.filter(
+            id_pegawai__id=user_id,
+            status_peminjaman='Dipinjam',
+            status_approval='diterima'
+        )
+        serializer = AktivitasSerializer(aktivitas_list, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK) 

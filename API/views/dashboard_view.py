@@ -14,13 +14,17 @@ class DashboardView(APIView):
         total_ruang = ruang.objects.count()
 
         barang_dipinjam_ids = detail_pinjam.objects.filter(peminjaman__status_peminjaman='Dipinjam').values_list('id_inventaris', flat=True)
-        barang_tersedia = inventaris.objects.filter(kondisi='baik').exclude(id__in=barang_dipinjam_ids).aggregate(total=Sum('jumlah'))['total'] or 0
+        
+        barang_dipinjam = detail_pinjam.objects.filter(peminjaman__status_peminjaman='Dipinjam').aggregate(total=Sum('jumlah'))['total'] or 0
+        
+        total_barang_baik = inventaris.objects.filter(kondisi='baik').aggregate(total=Sum('jumlah'))['total'] or 0
+        
+        barang_tersedia = total_barang_baik - barang_dipinjam
 
         barang_rusak_dan_hilang = inventaris.objects.filter(kondisi__in=['rusak', 'hilang']).aggregate(total=Sum('jumlah'))['total'] or 0
-        total_inventaris = barang_tersedia + barang_rusak_dan_hilang
+        total_inventaris = total_barang_baik + barang_rusak_dan_hilang
 
-        barang_dipinjam = detail_pinjam.objects.filter(peminjaman__status_peminjaman='Dipinjam').aggregate(total=Sum('jumlah'))['total'] or 0
-        total_barang = total_inventaris + barang_dipinjam
+        total_barang = total_inventaris
         riwayat_terbaru = RiwayatPeminjaman.objects.order_by('-tanggal_riwayat')[:5]
         riwayat_serializer = RiwayatPeminjamanSerializer(riwayat_terbaru, many=True)
 

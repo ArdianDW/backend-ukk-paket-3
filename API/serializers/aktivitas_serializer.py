@@ -5,10 +5,12 @@ class AktivitasSerializer(serializers.ModelSerializer):
     nama_peminjam = serializers.CharField(source='id_pegawai.nama_pegawai', read_only=True)
     barang_dipinjam = serializers.SerializerMethodField()
     tanggal_peminjaman = serializers.DateField(source='tanggal_pinjam', format="%Y-%m-%d", read_only=True)
+    status_peminjaman = serializers.CharField(read_only=True)
+    is_approved = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = peminjaman
-        fields = ['id', 'nama_peminjam', 'barang_dipinjam', 'tanggal_peminjaman']
+        fields = ['id', 'nama_peminjam', 'barang_dipinjam', 'tanggal_peminjaman', 'status_peminjaman', 'is_approved']
 
     def get_barang_dipinjam(self, obj):
         details = detail_pinjam.objects.filter(peminjaman=obj)

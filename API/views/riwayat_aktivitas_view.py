@@ -11,4 +11,12 @@ class RiwayatAktivitasListView(APIView):
     def get(self, request):
         riwayat_aktivitas_list = RiwayatPeminjaman.objects.all().order_by('-tanggal_riwayat')
         serializer = RiwayatAktivitasSerializer(riwayat_aktivitas_list, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK) 
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class RiwayatAktivitasUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, user_id):
+        riwayat_list = RiwayatPeminjaman.objects.filter(peminjaman__id_pegawai__id=user_id)
+        serializer = RiwayatAktivitasSerializer(riwayat_list, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)  

@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from API.models import inventaris
 from API.serializers.inventaris_serializer import InventarisSerializer
+from django.utils import timezone
 
 class LaporanView(APIView):
     permission_classes = [IsAuthenticated]
@@ -14,7 +15,11 @@ class LaporanView(APIView):
         if laporan_type == 'all':
             inventaris_list = inventaris.objects.all()
         elif laporan_type == 'recent':
-            inventaris_list = inventaris.objects.order_by('-tanggal_register')[:10]
+            now = timezone.now()
+            inventaris_list = inventaris.objects.filter(
+                tanggal_register__year=now.year,
+                tanggal_register__month=now.month
+            )
         elif laporan_type == 'rusak':
             inventaris_list = inventaris.objects.filter(kondisi='rusak')
         elif laporan_type == 'hilang':

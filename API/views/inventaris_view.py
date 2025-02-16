@@ -50,3 +50,12 @@ class InventarisDetailView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except inventaris.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+class InventarisBaikListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # Filter inventaris yang kondisinya baik dan jumlahnya lebih dari 0
+        inventaris_list = inventaris.objects.filter(kondisi='baik', jumlah__gt=0)
+        serializer = InventarisSerializer(inventaris_list, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

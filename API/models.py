@@ -104,13 +104,18 @@ class inventaris(models.Model):
         return self.nama
 
 class peminjaman(models.Model):
-    tanggal_pinjam = models.DateField(auto_now_add=True)
+    tanggal_pinjam = models.DateField()
     tanggal_kembali = models.DateField(null=True, blank=True)
     status_peminjaman = models.CharField(max_length=20, default='Dipinjam')
     id_pegawai = models.ForeignKey(pegawai, on_delete=models.CASCADE)
+    keterangan = models.TextField(null=True, blank=True)
 
-    class Meta:
-        db_table = 'peminjaman'
+    STATUS_APPROVAL_CHOICES = [
+        ('pending', 'Pending'),
+        ('diterima', 'Diterima'),
+        ('ditolak', 'Ditolak'),
+    ]
+    status_approval = models.CharField(max_length=10, choices=STATUS_APPROVAL_CHOICES, default='pending')
 
     def __str__(self):
         return f"Peminjaman oleh {self.id_pegawai.nama_pegawai} pada {self.tanggal_pinjam}"

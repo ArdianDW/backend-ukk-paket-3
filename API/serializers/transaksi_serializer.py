@@ -12,14 +12,24 @@ class PeminjamanSerializer(serializers.ModelSerializer):
     details = DetailPinjamSerializer(many=True, write_only=True)
     tanggal_pinjam = serializers.DateField(format="%Y-%m-%d", read_only=True)
     tanggal_kembali = serializers.DateField(format="%Y-%m-%d", required=False)
-
+    
     class Meta:
         model = peminjaman
-        fields = '__all__'
+        fields = ['id_pegawai', 'tanggal_pinjam', 'tanggal_kembali', 'keterangan', 'status_peminjaman', 'status_approval', 'details']
         read_only_fields = ['tanggal_pinjam', 'status_peminjaman']
 
     def create(self, validated_data):
+        # Set status_approval to 'diterima' automatically
+        validated_data['status_approval'] = 'diterima'
+
+        # Set tanggal_pinjam to today's date if not provided
+        if 'tanggal_pinjam' not in validated_data:
+            validated_data['tanggal_pinjam'] = timezone.now().date()
+
         details_data = validated_data.pop('details')
+
+        # Buat instance peminjaman terlebih dahulu
+        peminjaman_instance = peminjaman.objects.create(**validated_data)
 
         for detail_data in details_data:
             inventaris_instance = inventaris.objects.get(pk=detail_data['id_inventaris'].id)
@@ -28,10 +38,7 @@ class PeminjamanSerializer(serializers.ModelSerializer):
                     'detail': f"Jumlah barang {inventaris_instance.nama} tidak mencukupi. Tersedia: {inventaris_instance.jumlah}, Diminta: {detail_data['jumlah']}"
                 })
 
-        peminjaman_instance = peminjaman.objects.create(**validated_data)
-
-        for detail_data in details_data:
-            inventaris_instance = inventaris.objects.get(pk=detail_data['id_inventaris'].id)
+            # Pastikan pengurangan dilakukan dengan benar
             inventaris_instance.jumlah -= detail_data['jumlah']
             inventaris_instance.save()
 
@@ -84,6 +91,22 @@ class PeminjamanSerializer(serializers.ModelSerializer):
                 )
                 rusak_inventaris.jumlah += detail_data['jumlah']
                 rusak_inventaris.save()
+            elif detail.kondisi == 'hilang':
+                hilang_inventaris, created = inventaris.objects.get_or_create(
+                    nama=inventaris_instance.nama,
+                    kondisi='hilang',
+                    defaults={
+                        'kode_inventaris': inventaris_instance.kode_inventaris,
+                        'keterangan': 'Barang hilang',
+                        'jumlah': 0,
+                        'id_jenis': inventaris_instance.id_jenis,
+                        'id_ruang': inventaris_instance.id_ruang,
+                        'id_petugas': inventaris_instance.id_petugas,
+                        'tanggal_register': inventaris_instance.tanggal_register
+                    }
+                )
+                hilang_inventaris.jumlah += detail_data['jumlah']
+                hilang_inventaris.save()
 
             inventaris_instance.save()
 

@@ -8,6 +8,8 @@ from rest_framework import status
 from API.models import inventaris
 from API.serializers.inventaris_serializer import InventarisSerializer
 from django.http import HttpResponse
+from django.utils import timezone
+import locale
 
 class ExportLaporanView(APIView):
     permission_classes = [IsAuthenticated]
@@ -15,18 +17,30 @@ class ExportLaporanView(APIView):
     def get(self, request):
         laporan_type = request.query_params.get('type', 'all')
 
+        locale.setlocale(locale.LC_TIME, 'id_ID.UTF-8')
+
         if laporan_type == 'all':
             inventaris_list = inventaris.objects.all()
-            title = 'Laporan Semua BarangInventaris'
+            title = 'Laporan Semua Barang Inventaris'
+            filename = 'laporan_semua_barang_inventaris.xlsx'
         elif laporan_type == 'recent':
-            inventaris_list = inventaris.objects.order_by('-tanggal_register')[:10]
-            title = 'Laporan Barang Baru Masuk'
+            now = timezone.now()
+            inventaris_list = inventaris.objects.filter(
+                tanggal_register__year=now.year,
+                tanggal_register__month=now.month
+            )
+            bulan = now.strftime("%B")
+            tahun = now.year
+            title = f'Laporan Barang Baru Masuk Bulan {bulan} Tahun {tahun}'
+            filename = f'laporan_barang_masuk_{bulan}_{tahun}.xlsx'
         elif laporan_type == 'rusak':
             inventaris_list = inventaris.objects.filter(kondisi='rusak')
             title = 'Laporan Barang Rusak'
+            filename = 'laporan_barang_rusak.xlsx'
         elif laporan_type == 'hilang':
             inventaris_list = inventaris.objects.filter(kondisi='hilang')
             title = 'Laporan Inventaris Hilang'
+            filename = 'laporan_inventaris_hilang.xlsx'
         else:
             return Response({'error': 'Invalid report type'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -80,5 +94,5 @@ class ExportLaporanView(APIView):
         virtual_workbook.seek(0)
 
         response = HttpResponse(content=virtual_workbook.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response['Content-Disposition'] = f'attachment; filename=laporan_inventaris_{laporan_type}.xlsx'
+        response['Content-Disposition'] = f'attachment; filename={filename}'
         return response 

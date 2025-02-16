@@ -49,3 +49,15 @@ class PegawaiDetailView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except pegawai.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+class PegawaiDetailByPetugasView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, petugas_id):
+        try:
+            pegawai_instance = pegawai.objects.get(petugas_id=petugas_id)
+        except pegawai.DoesNotExist:
+            return Response({'error': 'Pegawai not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = PegawaiSerializer(pegawai_instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
