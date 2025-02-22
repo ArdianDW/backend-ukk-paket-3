@@ -22,6 +22,8 @@ from .views.peminjaman_approval_view import PeminjamanApprovalView
 from .views.peminjaman_pending_view import PeminjamanPendingListView
 from .views.peminjaman_user_view import PeminjamanUserListView
 from .views.peminjaman_pengembalian_view import PeminjamanPengembalianView
+from .views.laporan_peminjaman_pengembalian_view import LaporanPeminjamanPengembalianView
+from .views.export_laporan_peminjaman_pengembalian_view import ExportLaporanPeminjamanPengembalianView
 
 urlpatterns = [
     path('petugas/login/', petugas_login_view.as_view(), name='petugas-login'),
@@ -64,4 +66,6 @@ urlpatterns = [
     path('peminjaman/pending/', PeminjamanPendingListView.as_view(), name='peminjaman-pending-list'),
     path('peminjaman/user/<int:user_id>/', PeminjamanUserListView.as_view(), name='peminjaman-user-list'),
     path('peminjaman/pengembalian/<int:pk>/', PeminjamanPengembalianView.as_view(), name='peminjaman-pengembalian'),
+    path('laporan/peminjaman-pengembalian/', LaporanPeminjamanPengembalianView.as_view(), name='laporan-peminjaman-pengembalian'),
+    path('laporan/export-peminjaman-pengembalian/', ExportLaporanPeminjamanPengembalianView.as_view(), name='export-laporan-peminjaman-pengembalian'),
 ]

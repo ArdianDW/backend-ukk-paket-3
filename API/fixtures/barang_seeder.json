@@ -4,9 +4,9 @@
         "pk": 1,
         "fields": {
             "nama": "Laptop Asus",
-            "kode_inventaris": "12345678",
+            "kode_inventaris": "AS-11223",
             "kondisi": "baik",
-            "keterangan": "Laptop Asus untuk keperluan kantor",
+            "keterangan": "Asus TUF Rtx 2050 ",
             "jumlah": 10,
             "id_jenis": 1,
             "id_ruang": 1,
@@ -19,9 +19,9 @@
         "pk": 2,
         "fields": {
             "nama": "Proyektor Epson",
-            "kode_inventaris": "87654321",
+            "kode_inventaris": "EPS-1233",
             "kondisi": "baik",
-            "keterangan": "Proyektor Epson untuk presentasi",
+            "keterangan": "Proyektor Epson",
             "jumlah": 5,
             "id_jenis": 2,
             "id_ruang": 2,
@@ -34,8 +34,8 @@
         "pk": 3,
         "fields": {
             "nama": "Printer HP",
-            "kode_inventaris": "23456789",
-            "kondisi": "rusak",
+            "kode_inventaris": "HP-1123",
+            "kondisi": "baik",
             "keterangan": "Printer HP rusak, perlu perbaikan",
             "jumlah": 5,
             "id_jenis": 1,
@@ -49,7 +49,7 @@
         "pk": 4,
         "fields": {
             "nama": "Scanner Canon",
-            "kode_inventaris": "98765432",
+            "kode_inventaris": "CN-2132",
             "kondisi": "baik",
             "keterangan": "Scanner Canon untuk dokumen",
             "jumlah": 5,
@@ -64,7 +64,7 @@
         "pk": 5,
         "fields": {
             "nama": "Meja Kayu Jati",
-            "kode_inventaris": "34567890",
+            "kode_inventaris": "JT-3122",
             "kondisi": "baik",
             "keterangan": "Meja Kayu Jati untuk kerja",
             "jumlah": 5,
@@ -79,7 +79,7 @@
         "pk": 6,
         "fields": {
             "nama": "Kursi Ergonomis Ergotec",
-            "kode_inventaris": "9876543",
+            "kode_inventaris": "ERG-2314",
             "kondisi": "baik",
             "keterangan": "Kursi kantor ergonomis Ergotec",
             "jumlah": 5,
@@ -94,7 +94,7 @@
         "pk": 7,
         "fields": {
             "nama": "Whiteboard NAGA",
-            "kode_inventaris": "45678901",
+            "kode_inventaris": "NG-00798",
             "kondisi": "baik",
             "keterangan": "Whiteboard NAGA untuk rapat",
             "jumlah": 5,
@@ -109,9 +109,9 @@
         "pk": 8,
         "fields": {
             "nama": "Televisi Samsung",
-            "kode_inventaris": "10987654",
+            "kode_inventaris": "SMSG-312",
             "kondisi": "baik",
-            "keterangan": "Televisi Samsung untuk ruang tunggu",
+            "keterangan": "Televisi Samsung 4k",
             "jumlah": 5,
             "id_jenis": 2,
             "id_ruang": 2,
@@ -124,9 +124,9 @@
         "pk": 9,
         "fields": {
             "nama": "AC Daikin",
-            "kode_inventaris": "56789012",
-            "kondisi": "rusak",
-            "keterangan": "AC Daikin rusak, perlu perbaikan",
+            "kode_inventaris": "DKN-1231",
+            "kondisi": "baik",
+            "keterangan": "AC Daikin 2020",
             "jumlah": 5,
             "id_jenis": 1,
             "id_ruang": 1,
@@ -138,7 +138,7 @@
         "model": "API.inventaris",
         "pk": 10,
         "fields": {
-            "nama": "Kamera Sony",
+            "nama": "SNY-213",
             "kode_inventaris": "21098765",
             "kondisi": "baik",
             "keterangan": "Kamera Sony untuk dokumentasi",
@@ -147,6 +147,51 @@
             "id_ruang": 2,
             "id_petugas": 2,
             "tanggal_register": "2023-10-10"
+        }
+    },
+    {
+        "model": "API.inventaris",
+        "pk": 11,
+        "fields": {
+            "nama": "Laptop Asus",
+            "kode_inventaris": "AS-11223",
+            "kondisi": "rusak",
+            "keterangan": "Asus TUF Rtx 2050 ",
+            "jumlah": 1,
+            "id_jenis": 1,
+            "id_ruang": 1,
+            "id_petugas": 1,
+            "tanggal_register": "2023-10-01"
+        }
+    },
+    {
+        "model": "API.inventaris",
+        "pk": 12,
+        "fields": {
+            "nama": "Scanner Canon",
+            "kode_inventaris": "CN-2132",
+            "kondisi": "rusak",
+            "keterangan": "Scanner Canon untuk dokumen",
+            "jumlah": 3,
+            "id_jenis": 2,
+            "id_ruang": 2,
+            "id_petugas": 2,
+            "tanggal_register": "2023-10-04"
+        }
+    },
+    {
+        "model": "API.inventaris",
+        "pk": 2,
+        "fields": {
+            "nama": "Proyektor Epson",
+            "kode_inventaris": "EPS-1233",
+            "kondisi": "hilang",
+            "keterangan": "Proyektor Epson",
+            "jumlah": 2,
+            "id_jenis": 2,
+            "id_ruang": 2,
+            "id_petugas": 2,
+            "tanggal_register": "2023-10-02"
         }
     }
 ]

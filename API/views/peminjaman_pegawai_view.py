@@ -14,10 +14,9 @@ class PeminjamanPegawaiView(APIView):
         if serializer.is_valid():
             peminjaman_instance = serializer.save(status_approval='pending')
             
-            # Simpan ke RiwayatPeminjaman
             RiwayatPeminjaman.objects.create(
                 peminjaman=peminjaman_instance,
-                status="Peminjaman Dibuat",
+                status="Dipinjam",
                 keterangan="Meminjam"
             )
             
